@@ -1,0 +1,20 @@
+Aug 27 03:11:53 aitest sshd[528275]: Accepted password for dave from 192.168.1.50 port 22 ssh2
+Aug 27 03:11:53 aitest sshd[528275]: pam_unix(sshd:session): session opened for user dave by (uid=0)
+Aug 27 04:46:09 aitest sshd[528275]: Failed password for dave from 192.168.1.100 port 22 ssh2
+Aug 27 05:52:45 aitest sshd[528275]: Accepted password for sarah from 192.168.1.50 port 22 ssh2
+Aug 27 05:52:45 aitest sshd[528275]: pam_unix(sshd:session): session opened for user sarah by (uid=0)
+Aug 27 06:06:34 aitest sshd[528275]: Failed password for unknown from 192.168.1.100 port 22 ssh2
+Aug 27 07:00:44 aitest sshd[528275]: Accepted password for john from 192.168.1.50 port 22 ssh2
+Aug 27 07:00:44 aitest sshd[528275]: pam_unix(sshd:session): session opened for user john by (uid=0)
+Aug 27 07:23:18 aitest sshd[528275]: Accepted password for dave from 192.168.1.50 port 22 ssh2
+Aug 27 07:23:18 aitest sshd[528275]: pam_unix(sshd:session): session opened for user dave by (uid=0)
+Aug 27 07:23:49 aitest sshd[528275]: Connection closed by 10.0.0.100 port 22 [preauth]
+Aug 27 07:23:49 aitest sshd[528275]: Failed password for invalid user guest from 10.0.0.100 port 22 ssh2
+Aug 27 07:24:18 aitest sshd[528275]: Accepted password for bob from 192.168.1.50 port 22 ssh2
+Aug 27 07:24:18 aitest sshd[528275]: pam_unix(sshd:session): session opened for user bob by (uid=0)
+Aug 27 07:29:00 aitest sshd[528275]: Accepted password for john from 192.168.1.50 port 22 ssh2
+Aug 27 07:29:00 aitest sshd[528275]: pam_unix(sshd:session): session opened for user john by (uid=0)
+Aug 27 07:50:51 aitest sshd[528275]: Connection closed by 203.0.113.10 port 22 [preauth]
+Aug 27 07:50:51 aitest sshd[528275]: Failed password for invalid user root from 203.0.113.10 port 22 ssh2
+Aug 27 08:54:39 aitest sshd[528275]: Accepted password for carol from 192.168.1.50 port 22 ssh2
+Aug 27 08:54:39 aitest sshd[528275]: pam_unix(sshd:session): session opened for user carol by (uid=0)

@@ -1,0 +1,23 @@
+Aug 20 01:38:37 aitest sshd[528275]: Failed password for john from 192.168.1.100 port 22 ssh2
+Aug 20 02:24:05 aitest sshd[528275]: Accepted password for grace from 192.168.1.50 port 22 ssh2
+Aug 20 02:24:05 aitest sshd[528275]: pam_unix(sshd:session): session opened for user grace by (uid=0)
+Aug 20 02:36:28 aitest sshd[528275]: Connection closed by 203.0.113.10 port 22 [preauth]
+Aug 20 02:36:28 aitest sshd[528275]: Failed password for invalid user attacker from 203.0.113.10 port 22 ssh2
+Aug 20 03:35:13 aitest sshd[528275]: Failed password for sarah from 192.168.1.100 port 22 ssh2
+Aug 20 03:39:34 aitest sshd[528275]: Connection closed by 192.168.1.200 port 22 [preauth]
+Aug 20 03:39:34 aitest sshd[528275]: Failed password for invalid user root from 192.168.1.200 port 22 ssh2
+Aug 20 03:54:38 aitest sshd[528275]: Accepted password for frank from 192.168.1.50 port 22 ssh2
+Aug 20 03:54:38 aitest sshd[528275]: pam_unix(sshd:session): session opened for user frank by (uid=0)
+Aug 20 04:11:47 aitest sshd[528275]: Accepted password for dave from 192.168.1.50 port 22 ssh2
+Aug 20 04:11:47 aitest sshd[528275]: pam_unix(sshd:session): session opened for user dave by (uid=0)
+Aug 20 05:53:12 aitest sshd[528275]: Accepted password for eve from 192.168.1.50 port 22 ssh2
+Aug 20 05:53:12 aitest sshd[528275]: pam_unix(sshd:session): session opened for user eve by (uid=0)
+Aug 20 05:53:14 aitest sshd[528275]: Failed password for unknown from 192.168.1.100 port 22 ssh2
+Aug 20 06:29:32 aitest sshd[528275]: Accepted password for dave from 192.168.1.50 port 22 ssh2
+Aug 20 06:29:32 aitest sshd[528275]: pam_unix(sshd:session): session opened for user dave by (uid=0)
+Aug 20 07:18:05 aitest sshd[528275]: Accepted password for alice from 192.168.1.50 port 22 ssh2
+Aug 20 07:18:05 aitest sshd[528275]: pam_unix(sshd:session): session opened for user alice by (uid=0)
+Aug 20 08:35:38 aitest sshd[528275]: Accepted password for eve from 192.168.1.50 port 22 ssh2
+Aug 20 08:35:38 aitest sshd[528275]: pam_unix(sshd:session): session opened for user eve by (uid=0)
+Aug 20 08:46:46 aitest sshd[528275]: Accepted password for dave from 192.168.1.50 port 22 ssh2
+Aug 20 08:46:46 aitest sshd[528275]: pam_unix(sshd:session): session opened for user dave by (uid=0)

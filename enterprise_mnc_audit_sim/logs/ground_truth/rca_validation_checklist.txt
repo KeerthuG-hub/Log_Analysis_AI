@@ -1,0 +1,43 @@
+=== RCA Tool Validation Checklist ===
+Generated on: Sat Aug 30 08:35:18 AM GMT 2025
+
+DETECTION TESTS (Pass/Fail):
+□ Password file access detection (expect ~20-30 events)
+□ Brute force login detection (expect ~50-150 failed attempts)  
+□ Malicious download detection (expect ~10-20 events)
+□ Privilege escalation detection (expect ~10 events)
+□ Network reconnaissance detection (expect ~10-20 events)
+□ Log tampering detection (expect ~10 events)
+
+FALSE POSITIVE TESTS:
+□ Legitimate sysadmin activities not flagged as suspicious
+□ Normal database operations by DBAs not flagged
+□ Regular development activities not flagged
+□ Authorized security scanning not flagged
+□ Business hour activity patterns recognized as normal
+
+CORRELATION TESTS:
+□ Related events properly grouped together
+□ Attack sequences identified correctly
+□ User behavior patterns established
+□ Temporal analysis shows business hour concentration
+□ Insider threat scenarios detected (some malicious acts by real users)
+
+PERFORMANCE BENCHMARKS:
+□ Processes all logs within reasonable time (<5 minutes)
+□ Memory usage remains stable during processing
+□ Can handle 1000+ log entries efficiently
+□ Output is clear and actionable
+
+ACCURACY TARGETS:
+- Detection Rate: >90% of known malicious activities
+- False Positive Rate: <10% of legitimate activities
+- Processing Speed: >200 log entries per second
+- Memory Usage: <500MB for full dataset
+
+SCORING:
+16-20 passed: Excellent RCA capability
+12-15 passed: Good RCA capability  
+8-11 passed: Fair RCA capability needs improvement
+<8 passed: Poor RCA capability needs significant work
+

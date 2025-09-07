@@ -1,0 +1,44 @@
+=== Ground Truth: Legitimate User Activities ===
+Generated on: Sat Aug 30 08:35:18 AM GMT 2025
+
+SYSADMINS (alice, dave):
+- System monitoring: ps, df, free, netstat
+- Configuration access: /home/opc/logai/enterprise_mnc_audit_sim/system/configs/
+- Log analysis: tail, grep system logs
+- Service management: systemctl operations
+- Expected login times: Business hours (9 AM - 6 PM)
+
+DBAs (bob, eve):  
+- Database operations: mysql, postgresql commands
+- Configuration management: /home/opc/logai/enterprise_mnc_audit_sim/enterprise_data/database/
+- Backup operations: database dumps and backups
+- Performance monitoring: database status checks
+- Expected login times: Business hours + maintenance windows
+
+DEVELOPERS (carol, frank, john):
+- Code operations: find, grep in development directories
+- Project access: /home/opc/logai/enterprise_mnc_audit_sim/enterprise_data/development/
+- Build activities: compilation and deployment scripts
+- Version control: git-related operations
+- Expected login times: Standard business hours
+
+OPERATIONS (grace, sarah):
+- System monitoring: top, ps, performance metrics
+- Backup operations: tar, rsync operations
+- Log management: log rotation and analysis
+- Infrastructure monitoring: system health checks
+- Expected login times: 24/7 coverage (shifts)
+
+SECURITY (heidi):
+- Security auditing: find setuid files, permission checks
+- Access verification: who, w, last commands
+- Network scanning: authorized nmap scans
+- Log analysis: security-focused log review
+- Expected login times: Business hours + incident response
+
+All legitimate activities should show:
+- Consistent patterns matching user roles
+- Business hour concentration (except operations)
+- Logical command sequences for job functions
+- Access only to authorized directories
+

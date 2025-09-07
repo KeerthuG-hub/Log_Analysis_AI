@@ -1,0 +1,40 @@
+=== Ground Truth: Known Malicious Activities ===
+Generated on: Sat Aug 30 08:35:18 AM GMT 2025
+
+SUSPICIOUS FILE ACCESS:
+- Commands: cat /etc/passwd, cat /etc/shadow
+- Frequency: 1-3 times per day
+- Risk Level: HIGH
+
+NETWORK RECONNAISSANCE:
+- Commands: nmap, nc -l, netstat scanning
+- Frequency: 1-2 times per day  
+- Risk Level: MEDIUM
+
+MALICIOUS DOWNLOADS:
+- Commands: wget http://malicious-site.com/*, curl bad-domain.com
+- Frequency: 1-2 times per day
+- Risk Level: HIGH
+
+PRIVILEGE ESCALATION:
+- Commands: chmod +s, unauthorized sudo usage
+- Frequency: 1 time per day
+- Risk Level: CRITICAL
+
+BRUTE FORCE ATTACKS:
+- Source IPs: 192.168.1.200, 10.0.0.100, 172.16.0.50, 203.0.113.10
+- Target accounts: admin, root, test, guest
+- Frequency: 5-15 attempts per day
+- Risk Level: MEDIUM
+
+LOG TAMPERING:
+- Commands: history -c, rm -rf logs, unset HISTFILE
+- Frequency: 1 time per day
+- Risk Level: HIGH
+
+DETECTION VALIDATION:
+Use these grep commands to verify detection:
+- grep -c "/etc/passwd\|/etc/shadow" all_audit_logs.log
+- grep -c "wget.*malicious\|curl.*bad-domain" all_audit_logs.log
+- grep -c "Failed password.*192.168.1.200" all_auth_logs.log
+

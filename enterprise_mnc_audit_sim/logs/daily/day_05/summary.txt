@@ -1,0 +1,18 @@
+=== Day 5 Summary ===
+Generated on: Sat Aug 30 08:30:29 AM GMT 2025
+Log Directory: /home/opc/logai/enterprise_mnc_audit_sim/logs/daily/day_05
+
+Audit Log Statistics:
+- Total audit events: 551
+- Process executions: 358
+- File operations: 193
+
+Auth Log Statistics:
+- Total auth events: 21
+- Successful logins: 6
+- Failed logins: 6
+
+Suspicious Activities:
+0
+0 potentially suspicious commands detected
+

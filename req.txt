@@ -1,0 +1,9 @@
+langchain>=0.1.0
+langchain-huggingface>=0.0.6
+langchain-community>=0.0.8
+chromadb>=0.3.26
+groq>=0.31.0
+sentence-transformers>=2.2.2
+torch>=2.1.0
+transformers>=4.35.0
+
