@@ -1,0 +1,14 @@
+langchain>=0.1.0
+langchain-huggingface>=0.0.6
+langchain-community>=0.0.8
+langchain-core>=0.1.0
+chromadb>=0.4.0
+groq>=0.4.0
+sentence-transformers>=2.2.2
+torch>=2.1.0
+transformers>=4.35.0
+streamlit>=1.30.0
+deep-translator>=1.11.0
+pysqlite3-binary>=0.5.0
+python-dateutil>=2.8.2
+numpy>=1.24.0
