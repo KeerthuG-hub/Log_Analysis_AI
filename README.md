@@ -9,7 +9,6 @@ An AI-powered log analysis tool that lets you search and query enterprise audit 
 - **AI query understanding** — extracts intent, commands, users, and time filters via Groq LLM
 - **AI reranking** — results ranked by relevance using Groq
 - **AI analysis** — auto-generates root cause analysis and recommendations
-- **Bilingual UI** — English and Tamil support
 - **Log simulation** — shell scripts (`logsim.sh`, `mnc_log_sim.sh`) to generate synthetic enterprise logs for testing
 
 
