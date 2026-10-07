@@ -1,16 +1,35 @@
+import argparse
 import re
 import json
 import os
 from collections import defaultdict
 from datetime import datetime
 
+parser = argparse.ArgumentParser(description="Parse raw audit and auth logs into NL event files")
+parser.add_argument(
+    "--audit",
+    default="enterprise_mnc_audit_sim/logs/aggregate/all_audit_logs.log",
+    help="Path to the audit log file (default: %(default)s)"
+)
+parser.add_argument(
+    "--auth",
+    default="enterprise_mnc_audit_sim/logs/aggregate/all_auth_logs.log",
+    help="Path to the auth log file (default: %(default)s)"
+)
+parser.add_argument(
+    "--out",
+    default="data",
+    help="Output directory (default: %(default)s)"
+)
+args = parser.parse_args()
+
 # Create output directory
-OUT_DIR = "output"
+OUT_DIR = args.out
 os.makedirs(OUT_DIR, exist_ok=True)
 
 # File paths
-AUDIT_LOG = "/home/opc/logai/enterprise_mnc_audit_sim/logs/aggregate/all_audit_logs.log"
-AUTH_LOG = "/home/opc/logai/enterprise_mnc_audit_sim/logs/aggregate/all_auth_logs.log"
+AUDIT_LOG = args.audit
+AUTH_LOG = args.auth
 
 # UID mapping
 uid_to_user = {

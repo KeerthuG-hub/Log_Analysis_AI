@@ -1,6 +1,7 @@
 __import__('pysqlite3')
 import sys
 sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+import argparse
 import os
 import shutil
 import re
@@ -19,7 +20,7 @@ logger = logging.getLogger(__name__)
 
 # -----------------------------
 CHROMA_PATH = "chroma_db"
-INPUT_FILE = "/home/opc/logai/output/nl_full2.log"
+DEFAULT_INPUT_FILE = "data/events_nl.log"
 DENSE_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
 # Enhanced command descriptions with synonyms
@@ -288,17 +289,17 @@ class LogIngestStore:
             logger.warning(f"⚠️ Failed to create enhanced content: {e}")
             return sentence.lower()
 
-    def load_sentences(self) -> List[Tuple[str, Dict[str, Any]]]:
+    def load_sentences(self, input_file: str = DEFAULT_INPUT_FILE) -> List[Tuple[str, Dict[str, Any]]]:
         """Load and parse sentences with comprehensive error handling"""
         try:
-            if not os.path.exists(INPUT_FILE):
-                raise FileNotFoundError(f"❌ Input file not found: {INPUT_FILE}")
+            if not os.path.exists(input_file):
+                raise FileNotFoundError(f"❌ Input file not found: {input_file}")
 
             sentences = []
             seen = set()
             failed_lines = 0
 
-            with open(INPUT_FILE, "r", encoding="utf-8") as f:
+            with open(input_file, "r", encoding="utf-8") as f:
                 for line_num, line in enumerate(f, 1):
                     try:
                         line = line.strip()
@@ -437,45 +438,43 @@ class LogIngestStore:
 
 def main():
     """Main ingestion function with comprehensive error handling"""
+    parser = argparse.ArgumentParser(description="Ingest parsed log file into Chroma vector DB")
+    parser.add_argument("--input", default=DEFAULT_INPUT_FILE,
+                        help="Path to the NL log file (default: %(default)s)")
+    parser.add_argument("--chroma", default=CHROMA_PATH,
+                        help="Chroma DB directory (default: %(default)s)")
+    args = parser.parse_args()
+
     try:
-        print("🚀 Initializing Log Ingestion System...")
-        print("📋 Optimized for new log format: 'Aug DD HH:MM:SS: User X executed Y...'")
         store = LogIngestStore()
 
-        print("🔄 Resetting database...")
         store.reset_chroma()
 
-        print("📂 Loading and parsing log entries...")
-        sentences = store.load_sentences()
+        sentences = store.load_sentences(input_file=args.input)
 
         if not sentences:
-            print("❌ No log entries loaded. Please check your input file.")
+            print("No log entries loaded. Check your input file.")
             return
 
-        print("🏗️ Creating search database with enhanced indexing...")
         store.create_chroma(sentences)
 
-        # Show dataset statistics
-        print("\n📊 Dataset Statistics:")
         cmd_stats = store.get_command_statistics()
         user_stats = store.get_user_statistics()
 
-        print(f"   Total log entries: {len(sentences)}")
-        print(f"   Unique commands: {len(cmd_stats)}")
-        print(f"   Unique users: {len(user_stats)}")
+        print(f"Total log entries: {len(sentences)}")
+        print(f"Unique commands: {len(cmd_stats)}")
+        print(f"Unique users: {len(user_stats)}")
 
         if cmd_stats:
             top_commands = sorted(cmd_stats.items(), key=lambda x: x[1], reverse=True)[:5]
-            print(f"   Top commands: {', '.join([f'{cmd}({count})' for cmd, count in top_commands])}")
+            print(f"Top commands: {', '.join([f'{cmd}({count})' for cmd, count in top_commands])}")
 
         if user_stats:
             top_users = sorted(user_stats.items(), key=lambda x: x[1], reverse=True)[:5]
-            print(f"   Top users: {', '.join([f'{user}({count})' for user, count in top_users])}")
-
-        print("\n✅ Ingestion complete! Database ready for querying.")
+            print(f"Top users: {', '.join([f'{user}({count})' for user, count in top_users])}")
 
     except Exception as e:
-        print(f"❌ Fatal error: {e}")
+        print(f"Fatal error: {e}")
         traceback.print_exc()
 
 

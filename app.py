@@ -3,18 +3,16 @@ from deep_translator import GoogleTranslator
 import time
 import os
 import sys
-from typing import Dict, List, Any, Optional
 import traceback
+from typing import Dict, List, Any, Optional
 
-# Import the query backend
 try:
-    from qtest import QueryOnlyLogStore
+    from query_engine import QueryOnlyLogStore
     BACKEND_AVAILABLE = True
 except ImportError as e:
     st.error(f"Backend import failed: {e}")
     BACKEND_AVAILABLE = False
 
-# ------------------ App Config ------------------
 st.set_page_config(
     page_title="LogInsightAI / லாக் இன்சைட் ஏ.ஐ",
     page_icon="🔍",
@@ -22,18 +20,14 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# ------------------ Translation Functions ------------------
 @st.cache_data(ttl=3600)
 def translate_text(text: str, to_tamil: bool = True) -> str:
-    """Cached translation function"""
+    """Translate text to Tamil; return original if translation fails or is not needed."""
     try:
         if not to_tamil or not text.strip():
             return text
-
-        # Skip translation for very short text or already Tamil text
         if len(text) < 3 or any(ord(char) >= 0x0B80 and ord(char) <= 0x0BFF for char in text):
             return text
-
         translator = GoogleTranslator(source='en', target='ta')
         return translator.translate(text)
     except Exception as e:
@@ -41,14 +35,13 @@ def translate_text(text: str, to_tamil: bool = True) -> str:
         return text
 
 def get_text(en_text: str, ta_text: Optional[str] = None) -> str:
-    """Get text based on current language mode"""
+    """Return Tamil or English text based on the current language mode."""
     if st.session_state.get('tamil_mode', False):
         if ta_text:
             return ta_text
         return translate_text(en_text, to_tamil=True)
     return en_text
 
-# ------------------ Custom CSS ------------------
 st.markdown("""
 <style>
     .main-header {
@@ -201,7 +194,6 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ------------------ Initialize Session State ------------------
 if 'tamil_mode' not in st.session_state:
     st.session_state.tamil_mode = False
 if 'log_store' not in st.session_state:
@@ -215,16 +207,13 @@ if 'search_results' not in st.session_state:
 if 'ai_analysis' not in st.session_state:
     st.session_state.ai_analysis = None
 
-# ------------------ Initialize Backend ------------------
 @st.cache_resource
 def initialize_log_store():
-    """Initialize the log store backend"""
+    """Load the Chroma-backed query store; returns (store, status_string)."""
     try:
         if not BACKEND_AVAILABLE:
             return None, "Backend not available"
-
         store = QueryOnlyLogStore()
-
         if store.db is not None:
             return store, "success"
         else:
@@ -232,11 +221,9 @@ def initialize_log_store():
     except Exception as e:
         return None, str(e)
 
-# Initialize backend
 if not st.session_state.initialized:
     with st.spinner(get_text("Initializing LogInsightAI backend...")):
         log_store, init_status = initialize_log_store()
-
         if log_store:
             st.session_state.log_store = log_store
             st.session_state.initialized = True
@@ -245,7 +232,6 @@ if not st.session_state.initialized:
             st.error(f"{get_text('Backend initialization failed')}: {init_status}")
             st.info(get_text("Please run log_ingest.py first to prepare the data."))
 
-# ------------------ Enhanced Header ------------------
 title_text = get_text("LogInsightAI")
 subtitle_text = get_text("AI-Powered Log Analytics & Root Cause Detection",
                         "ஏ.ஐ-இயங்கும் பதிவு பகுப்பாய்வு & மூல காரண கண்டறிதல்")
@@ -262,7 +248,6 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# ------------------ Language Toggle (Centered) ------------------
 current_lang = get_text("English", "தமிழ் (Tamil)")
 lang_status_text = get_text("Current Language", "தற்போதைய மொழி")
 
@@ -272,7 +257,6 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# Centered toggle button
 st.markdown('<div class="center-button">', unsafe_allow_html=True)
 col1, col2, col3 = st.columns([1, 1, 1])
 with col2:
@@ -282,7 +266,6 @@ with col2:
         st.rerun()
 st.markdown('</div>', unsafe_allow_html=True)
 
-# ------------------ Query Input Section ------------------
 query_title = get_text("📝 Enter Your Log Analysis Query", "📝 உங்கள் பதிவு பகுப்பாய்வு வினவலை உள்ளிடுங்கள்")
 query_desc = get_text("Describe the issue you want to analyze or search for specific patterns",
                      "நீங்கள் பகுப்பாய்வு செய்ய விரும்பும் சிக்கலை விவரிக்கவும் அல்லது குறிப்பிட்ட வடிவங்களைத் தேடவும்")
@@ -307,7 +290,6 @@ user_query = st.text_area(
     label_visibility="hidden"
 )
 
-# ------------------ Centered Analyze Button ------------------
 st.markdown('<div class="center-analyze">', unsafe_allow_html=True)
 col1, col2, col3 = st.columns([2, 1, 2])
 with col2:
@@ -315,7 +297,6 @@ with col2:
     analyze_clicked = st.button(analyze_text, key="analyze", type="primary")
 st.markdown('</div>', unsafe_allow_html=True)
 
-# ------------------ Process Analysis ------------------
 if analyze_clicked:
     if not user_query.strip():
         error_text = get_text("Please enter a query to analyze!", "தயவுசெய்து பகுப்பாய்வு செய்ய ஒரு வினவலை உள்ளிடவும்!")
@@ -325,7 +306,6 @@ if analyze_clicked:
                              "பின்முனை துவக்கப்படவில்லை. தயவுசெய்து கணினி நிலையை சரிபார்க்கவும்.")
         st.error(error_text)
     else:
-        # Show loading animation
         loading_text = get_text("🔍 Analyzing logs with AI...", "🔍 ஏ.ஐ உடன் பதிவுகளை பகுப்பாய்வு செய்கிறது...")
         with st.spinner(loading_text):
             progress_bar = st.progress(0)
@@ -333,19 +313,15 @@ if analyze_clicked:
                 time.sleep(0.01)
                 progress_bar.progress(i + 1)
 
-            # Perform actual search
             try:
                 results = st.session_state.log_store.search(user_query, k=10)
                 st.session_state.search_results = results
-                st.session_state.show_logs = False  # Reset show logs when new search is performed
+                st.session_state.show_logs = False
 
                 if results:
-                    # Generate AI analysis
                     try:
                         analysis = st.session_state.log_store.analyze_results_with_ai(user_query, results)
-                        # Store original English analysis
                         st.session_state.original_analysis = analysis
-                        # Set current analysis based on language mode
                         if st.session_state.tamil_mode:
                             analysis = translate_text(analysis, to_tamil=True)
                         st.session_state.ai_analysis = analysis
@@ -374,11 +350,9 @@ if analyze_clicked:
                 st.session_state.ai_analysis = None
                 st.session_state.original_analysis = None
 
-# ------------------ Display Results (Only if we have results) ------------------
 if st.session_state.search_results:
     results = st.session_state.search_results
-    
-    # Display search results summary
+
     results_title = get_text("🔍 Search Results", "🔍 தேடல் முடிவுகள்")
     st.markdown(f"""
     <div class="result-card">
@@ -387,7 +361,6 @@ if st.session_state.search_results:
     </div>
     """, unsafe_allow_html=True)
 
-    # Display metrics
     col1, col2, col3 = st.columns(3)
     with col1:
         st.markdown(f"""
@@ -414,7 +387,6 @@ if st.session_state.search_results:
         </div>
         """, unsafe_allow_html=True)
 
-    # Toggle button for showing logs (centered)
     st.markdown('<div class="center-button">', unsafe_allow_html=True)
     col1, col2, col3 = st.columns([2, 1, 2])
     with col2:
@@ -424,11 +396,9 @@ if st.session_state.search_results:
             st.rerun()
     st.markdown('</div>', unsafe_allow_html=True)
 
-    # Display raw logs only if show_logs is True
     if st.session_state.show_logs:
         log_entries_text = get_text("📜 Raw Log Entries", "📜 மூல பதிவு உள்ளீடுகள்")
         st.markdown(f"### {log_entries_text}")
-        
         st.markdown('<div class="log-container">', unsafe_allow_html=True)
         for i, result in enumerate(results):
             content = result.get('content', '')
@@ -441,29 +411,22 @@ if st.session_state.search_results:
             """, unsafe_allow_html=True)
         st.markdown('</div>', unsafe_allow_html=True)
 
-    # AI Analysis (Always shown when results exist)
     if st.session_state.ai_analysis:
         ai_analysis_text = get_text("🤖 AI Analysis", "🤖 ஏ.ஐ பகுப்பாய்வு")
         with st.expander(ai_analysis_text, expanded=True):
-            # Store original English analysis if not already stored
             if 'original_analysis' not in st.session_state:
                 st.session_state.original_analysis = st.session_state.ai_analysis
-            
-            # Display analysis in current language
+
             if st.session_state.tamil_mode:
-                # If currently in Tamil mode, translate the original English analysis
                 current_analysis = translate_text(st.session_state.original_analysis, to_tamil=True)
             else:
-                # If in English mode, show original analysis
                 current_analysis = st.session_state.original_analysis
-            
+
             st.markdown(f'<div class="analysis-section"><p>{current_analysis}</p></div>',
                       unsafe_allow_html=True)
 
-# ------------------ Sidebar (Minimal) ------------------
 with st.sidebar:
     st.markdown(f"### {get_text('System Status', 'கணினி நிலை')}")
-
     if st.session_state.initialized and st.session_state.log_store:
         status_text = get_text("✅ Ready", "✅ தயார்")
         st.markdown(f"**{get_text('Status', 'நிலை')}:** {status_text}")
@@ -471,7 +434,6 @@ with st.sidebar:
         status_text = get_text("❌ Not Ready", "❌ தயார் இல்லை")
         st.markdown(f"**{get_text('Status', 'நிலை')}:** {status_text}")
 
-# ------------------ Help Section ------------------
 with st.expander(get_text("ℹ️ Help & Usage Guide", "ℹ️ உதவி & பயன்பாட்டு வழிகாட்டி")):
     help_content = get_text(
         """
@@ -508,14 +470,12 @@ with st.expander(get_text("ℹ️ Help & Usage Guide", "ℹ️ உதவி & �
     )
     st.markdown(help_content)
 
-# ------------------ Floating Animation ------------------
 st.markdown('<div class="floating-icon">🔍</div>', unsafe_allow_html=True)
 
-# ------------------ Footer ------------------
 st.markdown("---")
 footer_text = get_text(
-    "🚀 Powered by Advanced AI & Machine Learning",
-    "🚀 மேம்பட்ட ஏ.ஐ & இயந்திர கற்றலால் இயக்கப்படுகிறது"
+    "Powered by Advanced AI & Machine Learning",
+    "மேம்பட்ட ஏ.ஐ & இயந்திர கற்றலால் இயக்கப்படுகிறது"
 )
 version_text = get_text(
     "LogInsightAI v2.0 | Real-time Log Analysis & Root Cause Detection",
