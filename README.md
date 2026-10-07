@@ -66,11 +66,3 @@ show ssh logins for carol
 list commands by dave
 heidi file deletions
 ```
-
-Users in the dataset: alice, bob, carol, dave, eve, frank, grace, heidi, john, sarah
-
-## Known limitations
-
-- **Time filters are extracted but not applied.** The query parser captures dates and relative terms (e.g. "yesterday", "last 3 days") but the retrieval layer does not filter by timestamp.
-- **62 hand-injected anomaly lines.** The dataset was seeded with deliberate suspicious events attributed to users trudy, mallory, oscar, and unknown to exercise security queries.
-- **Audit SYSCALL and PATH records are joined by timestamp proximity, not by event serial (serial= field).** This can misattribute the path to the wrong syscall when two processes run simultaneously with close timestamps.
