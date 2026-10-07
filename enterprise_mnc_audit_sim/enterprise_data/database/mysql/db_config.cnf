@@ -1,8 +1,0 @@
-[mysql]
-host=localhost
-port=3306
-database=enterprise_db
-user=app_user
-# password stored in secure vault
-max_connections=100
-default_storage_engine=InnoDB

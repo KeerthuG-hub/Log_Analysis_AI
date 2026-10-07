@@ -1,8 +1,0 @@
-# Project Alpha - Development Notes
-Status: In Progress
-Team: Carol, Frank, John
-Deadline: 2024-12-31
-Technologies: Java, Spring Boot, PostgreSQL
-Budget: 50,000
-Current Sprint: Sprint 5
-Last Updated: Sat Aug 30 08:29:35 AM GMT 2025
