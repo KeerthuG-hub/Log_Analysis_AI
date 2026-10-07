@@ -27,28 +27,6 @@ app.py
     └─ Streamlit UI, imports QueryOnlyLogStore from query_engine
 ```
 
-## Folder layout
-
-```
-.
-├── app.py                          # Streamlit UI
-├── query_engine.py                 # QueryOnlyLogStore: search + AI analysis
-├── log_ingest.py                   # Ingestion: parses log file → chroma_db/
-├── parse_logs.py                   # Converts raw audit/auth logs → NL sentences
-├── simulate_logs.sh                # Bash simulator that generates raw logs
-├── data/
-│   └── events_nl.log               # NL log dataset (output of parse_logs.py)
-├── enterprise_mnc_audit_sim/
-│   └── logs/
-│       ├── aggregate/              # all_audit_logs.log, all_auth_logs.log
-│       └── ground_truth/           # known legitimate + malicious activity lists
-├── experiments/                    # scratch query backends (not in live path)
-│   ├── te.py
-│   └── query_back.py
-├── requirements.txt
-└── README.md
-```
-
 ## Run order
 
 ```bash
